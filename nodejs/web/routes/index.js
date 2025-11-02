@@ -12,5 +12,7 @@ router.get('/shop', function(req, res, next) {
 router.get('/single', function(req, res, next) {
     res.render('single', { title: 'Chi tiết sản phẩm' });
 });
-
+router.get('/404', function(req, res, next) {
+    res.render('404', { title: '404' });
+});
 module.exports = router;
