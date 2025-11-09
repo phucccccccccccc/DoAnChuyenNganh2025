@@ -9,6 +9,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 
+
+
 var app = express();
 
 // view engine setup
@@ -17,13 +19,14 @@ app.set('view engine', 'hbs');
 
 hbs.registerPartials(path.join(__dirname, 'views/partials')); //khai bao partials
 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/home', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 

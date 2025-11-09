@@ -5,10 +5,10 @@ var router = express.Router();
 /* GET home page. */
  // layout admin.hbs
 
-router.get('/index', function(req, res, next) {
-  res.render('home/index', { title: 'Express' });
-});
-router.get('/car', function(req, res, next) {
+    router.get('/index', function(req, res, next) {
+      res.render('home/index', { title: 'Express' });
+    });
+router.get('/home/car', function(req, res, next) {
     res.render('home/car', { title: 'Express' });
 });
 router.get('/car-details', function(req, res, next) {
@@ -25,6 +25,9 @@ router.get('/car-details', function(req, res, next) {
 });
 router.get('/about', function(req, res, next) {
     res.render('home/about', { title: 'Express' });
+});
+router.get('/contact', function(req, res, next) {
+    res.render('home/contact', { title: 'Express' });
 });
 
 
