@@ -1,71 +1,42 @@
-<!-- Offcanvas Menu Begin -->
-<div class="offcanvas-menu-overlay"></div>
-<div class="offcanvas-menu-wrapper">
-    <div class="offcanvas__widget">
-        <a href="#"><i class="fa fa-cart-plus"></i></a>
-        <a href="#" class="search-switch"><i class="fa fa-search"></i></a>
-        <a href="#" class="primary-btn">Add Car</a>
-    </div>
-    <div class="offcanvas__logo">
-        <a href="./"><img src="img/logo.png" alt=""></a>
-    </div>
-    <div id="mobile-menu-wrap"></div>
-    <ul class="offcanvas__widget__add">
-        <li><i class="fa fa-clock-o"></i> Week day: 08:00 am to 18:00 pm</li>
-        <li><i class="fa fa-envelope-o"></i> Info.colorlib@gmail.com</li>
-    </ul>
-    <div class="offcanvas__phone__num">
-        <i class="fa fa-phone"></i>
-        <span>(+12) 345 678 910</span>
-    </div>
-    <div class="offcanvas__social">
-        <a href="#"><i class="fa fa-facebook"></i></a>
-        <a href="#"><i class="fa fa-twitter"></i></a>
-        <a href="#"><i class="fa fa-google"></i></a>
-        <a href="#"><i class="fa fa-instagram"></i></a>
-    </div>
-</div>
-<!-- Offcanvas Menu End -->
-
-<!-- Header Section Begin -->
 <header class="header">
     <div class="header__top">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-7">
-                    <ul class="header__top__widget">
+            <div class="row align-items-center justify-content-between">
+
+                <!-- Bên trái: Giờ làm việc + Email -->
+                <div class="col-lg-8 col-md-7">
+                    <ul class="header__top__widget mb-0 d-flex align-items-center gap-4 flex-wrap">
                         <li><i class="fa fa-clock-o"></i> Week day: 08:00 am to 18:00 pm</li>
                         <li><i class="fa fa-envelope-o"></i> Info.colorlib@gmail.com</li>
                     </ul>
                 </div>
-                <div class="col-lg-5">
-                    <div class="header__top__right">
-                        <div class="header__top__phone">
+
+                <!-- Bên phải: Phone + Social + Add Car -->
+                <div class="col-lg-4">
+                    <div class="header__top__right d-flex align-items-center justify-content-end gap-3">
+                        <div class="header__top__phone d-flex align-items-center gap-1">
                             <i class="fa fa-phone"></i>
                             <span>(+12) 345 678 910</span>
                         </div>
-                        <div class="header__top__social">
+
+                        <div class="header__top__social d-flex align-items-center gap-1">
                             <a href="#"><i class="fa fa-facebook"></i></a>
                             <a href="#"><i class="fa fa-twitter"></i></a>
                             <a href="#"><i class="fa fa-google"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#">  <i class="fa fa-instagram me-2"></i>&nbsp;</a>
+
+                            <div class="header__nav__widget">
+                                <a href="/admin/login" class="btn btn-primary btn-sm">Sign in</a>
+                            </div>
                         </div>
+
                     </div>
                 </div>
+
+
+
+
             </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-2">
-                <div class="header__logo">
-                    <a href="./"><img src="img/logo.png" alt=""></a>
-                </div>
-            </div>
-        </div>
-        <div class="canvas__open">
-            <span class="fa fa-bars"></span>
         </div>
     </div>
 </header>
-<!-- Header Section End -->
