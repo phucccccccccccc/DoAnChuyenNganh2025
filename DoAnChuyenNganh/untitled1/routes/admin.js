@@ -11,6 +11,12 @@ var router = express.Router();
 router.get('/', (req, res) => {
     res.render('layouts/admin', { layout: 'layouts/admin', title: 'Bảng điều khiển' });
 });
+router.get('/register', function (req, res) {
+    res.render('admin/register', {layout: 'admin/register'});
+});
+router.get('/forgot-password', function (req, res) {
+    res.render('admin/forgot-password', {layout: 'admin/forgot-password'});
+});
 
 
     module.exports = router;
