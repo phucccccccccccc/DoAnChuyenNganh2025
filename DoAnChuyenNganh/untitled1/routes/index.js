@@ -29,6 +29,9 @@ router.get('/about', function(req, res, next) {
 router.get('/contact', function(req, res, next) {
     res.render('home/contact', { title: 'Express' });
 });
+router.get('/customer', function(req, res, next) {
+    res.render('home/customer', { title: 'Express' });
+});
 
 
 module.exports = router;
