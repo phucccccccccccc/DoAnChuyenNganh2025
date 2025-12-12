@@ -26,12 +26,76 @@
                             <a href="#">  <i class="fa fa-instagram me-2"></i>&nbsp;</a>
 
                             <div class="header__nav__widget">
-                                <a href="/admin/login" class="btn btn-primary btn-sm">Sign in</a>
+                                <div class="header__nav__widget">
+                                    {{#if user}}
+                                        <div class="dropdown-hover">
+                                            <button class="btn-login">Chào, {{user.firstName}}</button>
+
+                                            <ul class="dropdown-menu-hover">
+                                                <li><a href="/admin">Trang Admin</a></li>
+                                                <li><a href="/logout">Đăng xuất</a></li>
+                                            </ul>
+                                        </div>
+                                    {{else}}
+                                        <a href="/admin/login" class="btn-login">Sign In</a>
+                                    {{/if}}
+                                </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
+                <style>
+                    /* Style nút login */
+                    .btn-login {
+                        background: #007bff;
+                        color: white;
+                        padding: 6px 14px;
+                        border-radius: 4px;
+                        border: none;
+                        cursor: pointer;
+                    }
+
+                    /* Container dropdown */
+                    .dropdown-hover {
+                        position: relative;
+                        display: inline-block;
+                    }
+
+                    /* Menu mặc định ẩn hoàn toàn */
+                    .dropdown-menu-hover {
+                        display: none;
+                        position: absolute;
+                        top: 40px;
+                        right: 0;
+                        background: #fff;
+                        list-style: none;
+                        padding: 8px 0;
+                        margin: 0;
+                        width: 150px;
+                        border-radius: 4px;
+                        box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+                        z-index: 999;
+                    }
+
+                    /* Style item */
+                    .dropdown-menu-hover li a {
+                        display: block;
+                        padding: 10px 14px;
+                        text-decoration: none;
+                        color: #333;
+                    }
+
+                    .dropdown-menu-hover li a:hover {
+                        background: #eee;
+                    }
+
+                    /* Khi đưa chuột vào nút → xuất hiện menu */
+                    .dropdown-hover:hover .dropdown-menu-hover {
+                        display: block;
+                    }
+
+                </style>
 
 
 
@@ -40,3 +104,4 @@
         </div>
     </div>
 </header>
+
