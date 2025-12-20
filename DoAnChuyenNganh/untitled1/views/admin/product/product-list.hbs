@@ -1,57 +1,86 @@
 <div class="container mt-4">
-    <h2 class="text-center text-danger mb-4 text-uppercase">Danh Sách Siêu Xe</h2>
+    <h2 class="text-center text-danger mb-4 text-uppercase">
+        Danh sách xe
+    </h2>
 
     <div class="card shadow border-0 rounded-3">
         <div class="card-body">
+
+            <a href="/admin/product/create-product" class="btn btn-success mb-3">
+                ➕ Thêm xe
+            </a>
+
             <table class="table table-bordered table-hover align-middle text-center">
                 <thead class="table-dark">
                 <tr>
                     <th>#</th>
-                    <th>Hình Ảnh</th>
-                    <th>Tên Xe</th>
-                    <th>Hãng Xe</th>
-                    <th>Công Suất (HP)</th>
-                    <th>Tốc Độ (km/h)</th>
-                    <th>Giá (USD)</th>
+                    <th>Hình ảnh</th>
+                    <th>Tên xe</th>
+                    <th>Danh mục</th>
+                    <th>Giá</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
                 </tr>
                 </thead>
+
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><img src="https://cdn.ferrari.com/cms/network/media/img/resize/61fa730a1dcf7d000e016c4b-ferrari-sf90-stradale-thumb" alt="Ferrari SF90" width="100" class="rounded"></td>
-                    <td>SF90 Stradale</td>
-                    <td>Ferrari</td>
-                    <td>986</td>
-                    <td>340</td>
-                    <td>$524,000</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><img src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/news/2021/03_16_aventador_svj_xago/cover_m.jpg" alt="Lamborghini Aventador" width="100" class="rounded"></td>
-                    <td>Aventador SVJ</td>
-                    <td>Lamborghini</td>
-                    <td>759</td>
-                    <td>350</td>
-                    <td>$517,770</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Bugatti_Chiron_%2840531926934%29.jpg" alt="Bugatti Chiron" width="100" class="rounded"></td>
-                    <td>Chiron</td>
-                    <td>Bugatti</td>
-                    <td>1500</td>
-                    <td>420</td>
-                    <td>$3,000,000</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/McLaren_765LT_Genf_2020_1Y7A5197.jpg" alt="McLaren 765LT" width="100" class="rounded"></td>
-                    <td>765LT</td>
-                    <td>McLaren</td>
-                    <td>755</td>
-                    <td>330</td>
-                    <td>$358,000</td>
-                </tr>
+                <p style="color:red">Số lượng products: {{products.length}}</p>
+
+                {{#each products}}
+                    <tr>
+                        <td>{{ @index}}</td>
+
+                        <td>
+                            {{#if this.image}}
+                                <img src="{{this.image}}" width="90" class="rounded">
+                            {{else}}
+                                Không có ảnh
+                            {{/if}}
+                        </td>
+
+                        <td>{{this.name}}</td>
+
+                        <td>
+                            {{#if this.category}}
+                                {{this.category.name}}
+                            {{else}}
+                                —
+                            {{/if}}
+                        </td>
+
+                        <td>{{this.price}}</td>
+
+                        <td>
+                            {{#if this.status}}
+                                <span class="badge bg-success">Hiển thị</span>
+                            {{else}}
+                                <span class="badge bg-secondary">Ẩn</span>
+                            {{/if}}
+                        </td>
+
+                        <td>
+                            <a href="/admin/product/edit-product/{{this._id}}"
+                               class="btn btn-sm btn-warning">
+                                Sửa
+                            </a>
+
+                            <form action="/admin/product/delete/{{this._id}}?_method=DELETE"
+                                  method="POST"
+                                  style="display:inline">
+                                <button class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Xóa xe này?')">
+                                    Xóa
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/each}}
+
+                {{#unless products.length}}
+                    <tr>
+                        <td colspan="7">❌ Chưa có xe nào</td>
+                    </tr>
+                {{/unless}}
                 </tbody>
             </table>
         </div>

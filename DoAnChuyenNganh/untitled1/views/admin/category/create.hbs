@@ -1,0 +1,32 @@
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4>Category Add</h4>
+        </div>
+        <div class="card-body">
+
+            <form action="/admin/category/create-product" method="POST">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Image</label>
+                    <input type="text" name="image" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" class="form-control">
+                        <option value="true">Active</option>
+                        <option value="false">InActive</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-success">Create</button>
+            </form>
+
+        </div>
+    </div>
+</div>

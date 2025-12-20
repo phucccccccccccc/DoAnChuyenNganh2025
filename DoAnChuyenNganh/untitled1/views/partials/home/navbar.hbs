@@ -2,41 +2,59 @@
     <div class="row">
         <div class="col-lg-2">
             <div class="header__logo">
-                <a href="./index"><img src="img/logo.png" alt=""></a>
+                <a href="/"><img src="/img/logo.png" alt=""></a>
             </div>
         </div>
+
         <div class="col-lg-10">
             <div class="header__nav">
                 <nav class="header__menu">
                     <ul>
-                        <li class="active"><a href="/">Home</a></li>
-                        <li><a href="car">Cars</a></li>
-                        <li><a href="blog">Blog</a></li>
-                        <li><a href="#">Pages</a>
+                        <li class="{{#if isHome}}active{{/if}}">
+                            <a href="/">Home</a>
+                        </li>
+
+                        <!-- CATEGORY MENU -->
+                        <li class="{{#if isCars}}active{{/if}}">
+                            <a href="/cars">Cars</a>
                             <ul class="dropdown">
-                                <li><a href="about">About Us</a></li>
-                                <li><a href="car-details">Car Details</a></li>
-                                <li><a href="blog-details">Blog Details</a></li>
+                                {{#each categories}}
+                                    <li>
+                                        <a href="/cars/category/{{this._id}}">
+                                            {{this.name}}
+                                        </a>
+                                    </li>
+                                {{/each}}
                             </ul>
                         </li>
-                        <li><a href="about">About</a></li>
-                        <li><a href="contact">Contact</a></li>
-                        <li><a href="customer">customer</a></li>
 
+
+                        <li><a href="/blog">Blog</a></li>
+
+                        <li>
+                            <a href="#">Pages</a>
+                            <ul class="dropdown">
+                                <li><a href="/about">About Us</a></li>
+                                <li><a href="/car-details">Car Details</a></li>
+                                <li><a href="/blog-details">Blog Details</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="/contact">Contact</a></li>
                     </ul>
                 </nav>
+
                 <div class="header__nav__widget">
                     <div class="header__nav__widget__btn">
                         <a href="#"><i class="fa fa-cart-plus"></i></a>
                         <a href="#" class="search-switch"><i class="fa fa-search"></i></a>
                     </div>
                     <a href="#" class="primary-btn">Add Car</a>
-
                 </div>
-
             </div>
         </div>
     </div>
+
     <div class="canvas__open">
         <span class="fa fa-bars"></span>
     </div>

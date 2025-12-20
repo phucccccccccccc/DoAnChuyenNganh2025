@@ -1,0 +1,56 @@
+<h2 class="text-center mb-4">Sửa danh mục</h2>
+
+<div class="card shadow-lg border-0 rounded-4">
+    <div class="card-body">
+
+        <form action="/admin/category/edit/{{category._id}}?_method=PUT" method="POST">
+
+            <!-- Name -->
+            <div class="form-group mb-3">
+                <label>Tên danh mục</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        value="{{category.name}}"
+                        required
+                >
+            </div>
+
+            <!-- Image -->
+            <div class="form-group mb-3">
+                <label>Image</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        name="image"
+                        value="{{category.image}}"
+                >
+            </div>
+
+            <!-- Status -->
+            <!-- Status -->
+            <div class="form-group mb-4">
+                <label>Status</label>
+                <select name="status" class="form-control">
+                    <option value="true" {{#if category.status}}selected{{/if}}>
+                        Active
+                    </option>
+                    <option value="false" {{#unless category.status}}selected{{/unless}}>
+                        InActive
+                    </option>
+                </select>
+            </div>
+
+
+            <button type="submit" class="btn btn-success">
+                💾 Cập nhật
+            </button>
+            <a href="/admin/category" class="btn btn-secondary">
+                ⬅ Quay lại
+            </a>
+
+        </form>
+
+    </div>
+</div>

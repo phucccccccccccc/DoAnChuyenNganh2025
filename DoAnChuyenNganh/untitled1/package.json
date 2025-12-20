@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@types/method-override": "^3.0.0",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.1",
     "connect-flash": "^0.1.1",
@@ -16,6 +17,7 @@
     "express-session": "^1.18.2",
     "hbs": "^4.2.0",
     "http-errors": "~1.6.3",
+    "method-override": "^3.0.0",
     "mongoose": "^9.0.0",
     "morgan": "^1.10.1",
     "nodemon": "^3.1.11",

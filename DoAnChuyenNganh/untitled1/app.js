@@ -8,17 +8,29 @@ var hbs = require('hbs');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
+var categoryRouter = require('./routes/category');
+
+
+const carRouter = require('./routes/car');
+const productRouter = require('./routes/product');
 
 var app = express();
 
+const methodOverride = require('method-override');
 
 const session = require('express-session');
 
+app.use(methodOverride('_method'));
 app.use(session({
     secret: 'secret-key',
     resave: false,
     saveUninitialized: true
 }));
+
+hbs.registerHelper('eq', function (a, b) {
+    return String(a) === String(b);
+});
+//methot
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -39,6 +51,10 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
+app.use('/admin/category', categoryRouter);
+app.use('/cars', carRouter);
+app.use('/admin/product', productRouter);
+
 
 
 
@@ -174,24 +190,53 @@ app.post('/register', async (req, res) => {
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
 
+    // ==========================
+    // 1) KIỂM TRA RỖNG
+    // ==========================
+    const errors = {};
+
+    if (!email || email.trim() === "") {
+        errors.emailError = "Vui lòng nhập email";
+    }
+
+    if (!password || password.trim() === "") {
+        errors.passwordError = "Vui lòng nhập mật khẩu";
+    }
+
+    // Nếu có lỗi rỗng → render lại ngay
+    if (Object.keys(errors).length > 0) {
+        return res.render('admin/login', {
+            ...errors,
+            email // giữ lại email đã nhập
+        });
+    }
+
+    // ==========================
+    // 2) KIỂM TRA EMAIL TỒN TẠI
+    // ==========================
     User.findOne({ email }).then(user => {
         if (!user) {
             return res.render('admin/login', {
                 emailError: "Email không tồn tại",
-                email: email
+                email
             });
         }
 
+        // ==========================
+        // 3) KIỂM TRA MẬT KHẨU
+        // ==========================
         bcryptjs.compare(password, user.password, (err, matched) => {
 
             if (!matched) {
                 return res.render('admin/login', {
                     passwordError: "Sai mật khẩu",
-                    email: email
+                    email
                 });
             }
 
-            // Đăng nhập thành công
+            // ==========================
+            // 4) LOGIN THÀNH CÔNG
+            // ==========================
             req.session.user = {
                 firstName: user.firstName,
                 lastName: user.lastName,

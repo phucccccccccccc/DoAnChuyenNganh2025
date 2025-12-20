@@ -1,0 +1,73 @@
+<div class="container mt-4">
+    <h2 class="text-center text-primary mb-4">
+        ➕ Thêm xe mới
+    </h2>
+
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-body">
+
+            <form action="/admin/product/create-product" method="POST">
+
+                <!-- NAME -->
+                <div class="mb-3">
+                    <label class="form-label">Tên xe</label>
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           required>
+                </div>
+
+                <!-- IMAGE -->
+                <div class="mb-3">
+                    <label class="form-label">Hình ảnh (URL)</label>
+                    <input type="text"
+                           name="image"
+                           class="form-control"
+                           placeholder="/img/cars/car-1.jpg">
+                </div>
+
+                <!-- PRICE -->
+                <div class="mb-3">
+                    <label class="form-label">Giá</label>
+                    <input type="text"
+                           name="price"
+                           class="form-control"
+                           placeholder="$218 / Month"
+                           required>
+                </div>
+
+                <!-- CATEGORY -->
+                <div class="mb-3">
+                    <label class="form-label">Danh mục</label>
+                    <select name="category" class="form-control" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        {{#each categories}}
+                            <option value="{{this._id}}">
+                                {{this.name}}
+                            </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <!-- STATUS -->
+                <div class="mb-4">
+                    <label class="form-label">Trạng thái</label>
+                    <select name="status" class="form-control">
+                        <option value="true">Hiển thị</option>
+                        <option value="false">Ẩn</option>
+                    </select>
+                </div>
+
+                <!-- BUTTON -->
+                <button class="btn btn-success">
+                    💾 Lưu xe
+                </button>
+
+                <a href="/admin/product" class="btn btn-secondary">
+                    ⬅ Quay lại
+                </a>
+            </form>
+
+        </div>
+    </div>
+</div>

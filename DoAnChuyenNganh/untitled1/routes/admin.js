@@ -17,14 +17,7 @@ router.get('/register', function (req, res) {
 router.get('/forgot-password', function (req, res) {
     res.render('admin/forgot-password', {layout: 'admin/forgot-password'});
 });
-router.get('/category', (req, res) => {
-    res.render('admin/category/category-list', { layout: 'layouts/admin', title: 'Quản lý danh mục' });
-});
-
 // Trang product
-router.get('/product', (req, res) => {
-    res.render('admin/product/product-list', { layout: 'layouts/admin', title: 'Quản lý sản phẩm' });
-});
 
     module.exports = router;
 

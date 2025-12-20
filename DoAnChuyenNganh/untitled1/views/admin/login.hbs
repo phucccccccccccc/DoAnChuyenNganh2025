@@ -19,7 +19,7 @@
 
         <div class="card-body">
 
-            {{#if error}}
+            {{#if error_message}}
                 <div class="alert alert-danger">{{error}}</div>
             {{/if}}
 
@@ -39,7 +39,7 @@
                             type="email"
                             placeholder="Enter email"
                             autocomplete="username"
-                            required>
+                            value="{{email}}">
 
                     {{#if emailError}}
                         <div class="invalid-feedback">
@@ -56,8 +56,7 @@
                             name="password"
                             type="password"
                             placeholder="Password"
-                            autocomplete="current-password"
-                            required>
+                            autocomplete="current-password">
 
                     {{#if passwordError}}
                         <div class="invalid-feedback">
@@ -66,11 +65,9 @@
                     {{/if}}
                 </div>
 
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" name="remember" id="rememberCheck">
-                    <label class="form-check-label" for="rememberCheck">
-                        Remember Password
-                    </label>
+                <div class="form-check mb-3 d-flex align-items-center" style="padding-left: 1.4rem;">
+                    <input class="form-check-input me-2" type="checkbox" id="rememberCheck" name="remember">
+                    <label class="form-check-label mb-0" for="rememberCheck">Remember Password</label>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Login</button>

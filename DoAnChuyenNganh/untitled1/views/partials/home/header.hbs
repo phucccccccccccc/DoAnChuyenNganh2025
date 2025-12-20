@@ -3,105 +3,189 @@
         <div class="container">
             <div class="row align-items-center justify-content-between">
 
-                <!-- Bên trái: Giờ làm việc + Email -->
+                <!-- LEFT: hours + email -->
                 <div class="col-lg-8 col-md-7">
-                    <ul class="header__top__widget mb-0 d-flex align-items-center gap-4 flex-wrap">
-                        <li><i class="fa fa-clock-o"></i> Week day: 08:00 am to 18:00 pm</li>
-                        <li><i class="fa fa-envelope-o"></i> Info.colorlib@gmail.com</li>
+                    <ul class="header__top__widget mb-0 d-flex align-items-center gap-3 flex-wrap">
+                        <li><i class="fa fa-clock-o me-2"></i>Week day: 08:00 am to 18:00 pm</li>
+                        <li><i class="fa fa-envelope-o me-2"></i>Info.colorlib@gmail.com</li>
                     </ul>
                 </div>
 
-                <!-- Bên phải: Phone + Social + Add Car -->
-                <div class="col-lg-4">
+                <!-- RIGHT: phone + social + login -->
+                <div class="col-lg-4 col-md-5">
                     <div class="header__top__right d-flex align-items-center justify-content-end gap-3">
-                        <div class="header__top__phone d-flex align-items-center gap-1">
-                            <i class="fa fa-phone"></i>
+
+                        <div class="header__top__phone d-flex align-items-center gap-2">
+                            <i class="fa fa-phone me-1"></i>
                             <span>(+12) 345 678 910</span>
                         </div>
 
-                        <div class="header__top__social d-flex align-items-center gap-1">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-google"></i></a>
-                            <a href="#">  <i class="fa fa-instagram me-2"></i>&nbsp;</a>
+                        <div class="header__top__social d-flex align-items-center gap-2">
+                            <a class="social-link" href="#"><i class="fa fa-facebook"></i></a>
+                            <a class="social-link" href="#"><i class="fa fa-twitter"></i></a>
+                            <a class="social-link" href="#"><i class="fa fa-google"></i></a>
+                            <a class="social-link" href="#"><i class="fa fa-instagram"></i></a>
+                        </div>
 
-                            <div class="header__nav__widget">
-                                <div class="header__nav__widget">
-                                    {{#if user}}
-                                        <div class="dropdown-hover">
-                                            <button class="btn-login">Chào, {{user.firstName}}</button>
+                        <div class="header__nav__widget">
+                            {{#if user}}
+                                <div class="dropdown-hover">
+                                    <button class="btn-login">Chào, {{user.firstName}}</button>
 
-                                            <ul class="dropdown-menu-hover">
-                                                <li><a href="/admin">Trang Admin</a></li>
-                                                <li><a href="/logout">Đăng xuất</a></li>
-                                            </ul>
-                                        </div>
-                                    {{else}}
-                                        <a href="/admin/login" class="btn-login">Sign In</a>
-                                    {{/if}}
+                                    <ul class="dropdown-menu-hover">
+                                        <li><a href="/admin">Trang Admin</a></li>
+                                        <li><a href="/logout">Đăng xuất</a></li>
+                                    </ul>
                                 </div>
-                            </div>
+                            {{else}}
+                                <a href="/admin/login" class="btn-login">Sign In</a>
+                            {{/if}}
                         </div>
 
                     </div>
                 </div>
-                <style>
-                    /* Style nút login */
-                    .btn-login {
-                        background: #007bff;
-                        color: white;
-                        padding: 6px 14px;
-                        border-radius: 4px;
-                        border: none;
-                        cursor: pointer;
-                    }
-
-                    /* Container dropdown */
-                    .dropdown-hover {
-                        position: relative;
-                        display: inline-block;
-                    }
-
-                    /* Menu mặc định ẩn hoàn toàn */
-                    .dropdown-menu-hover {
-                        display: none;
-                        position: absolute;
-                        top: 40px;
-                        right: 0;
-                        background: #fff;
-                        list-style: none;
-                        padding: 8px 0;
-                        margin: 0;
-                        width: 150px;
-                        border-radius: 4px;
-                        box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
-                        z-index: 999;
-                    }
-
-                    /* Style item */
-                    .dropdown-menu-hover li a {
-                        display: block;
-                        padding: 10px 14px;
-                        text-decoration: none;
-                        color: #333;
-                    }
-
-                    .dropdown-menu-hover li a:hover {
-                        background: #eee;
-                    }
-
-                    /* Khi đưa chuột vào nút → xuất hiện menu */
-                    .dropdown-hover:hover .dropdown-menu-hover {
-                        display: block;
-                    }
-
-                </style>
-
-
-
 
             </div>
         </div>
     </div>
 </header>
+
+<style>
+    /* ensure header not clipping but menu will be positioned on body */
+    .header__top, .container, .row, .header__top__right {
+        overflow: visible;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* basic header styles (keep yours) */
+    .header__top { background:#2f3133; color:#fff; padding:10px 0; font-size:14px; }
+    .header__top__widget { list-style:none; padding:0; margin:0; }
+    .header__top__widget li { display:flex; align-items:center; color:#e9ecef; margin-right:1rem; }
+    .header__top__widget i { color:#cfcfcf; }
+    .header__top__phone { color:#e9ecef; white-space:nowrap; }
+    .header__top__social a { color:#e9ecef; padding:6px; display:inline-flex; align-items:center; justify-content:center; }
+    .btn-login { background:#0d6efd; color:#fff; padding:6px 12px; border-radius:6px; border:none; cursor:pointer; white-space:nowrap; position:relative; z-index:2; }
+
+    /* MENU WHEN MOVED TO BODY */
+    .dropdown-menu-hover {
+        position: fixed;       /* fixed on viewport */
+        display: none;         /* hidden by default */
+        background: #fff;
+        min-width: 160px;
+        border-radius: 6px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+        padding: 6px 0;
+        margin: 0;
+        list-style: none;
+        z-index: 99999;        /* VERY high so nothing covers it */
+        pointer-events: auto;  /* allow clicks */
+    }
+
+    /* visible state: show by JS (we add .open class on the menu element itself) */
+    .dropdown-menu-hover.open {
+        display: block;
+        animation: dropdownFade .12s ease;
+    }
+
+    /* items */
+    .dropdown-menu-hover li a { display:block; padding:10px 14px; text-decoration:none; color:#333; }
+    .dropdown-menu-hover li a:hover { background:#f5f5f5; }
+
+    /* small screens adjustments */
+    @media (max-width:767.98px) {
+        .header__top__phone { display:none; }
+        .header__top__right { justify-content:center !important; gap:.5rem; }
+    }
+
+    /* small animation */
+    @keyframes dropdownFade {
+        from { opacity: 0; transform: translateY(-6px) scale(.99); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+</style>
+
+<script>
+    (function(){
+        // Helpers
+        function getOffsetRect(elem) {
+            return elem.getBoundingClientRect();
+        }
+
+        // move menu to body and keep reference
+        document.querySelectorAll('.dropdown-hover').forEach(function(wrapper, idx) {
+            const btn = wrapper.querySelector('.btn-login');
+            const menu = wrapper.querySelector('.dropdown-menu-hover');
+
+            if (!btn || !menu) return;
+
+            // detach menu to body so it's not clipped by parents
+            document.body.appendChild(menu);
+
+            // ensure menu is hidden
+            menu.classList.remove('open');
+            menu.style.left = '-9999px';
+            menu.style.top = '-9999px';
+
+            // toggle function
+            function openMenu() {
+                // position relative to button
+                const r = getOffsetRect(btn);
+                // calculate left so menu right-aligns with button's right edge
+                const menuW = menu.offsetWidth || 160;
+                let left = Math.round(r.right - menuW);
+                if (left < 8) left = 8; // keep margin from viewport edge
+                // if menu wider than viewport, align to 8px
+                const viewportW = window.innerWidth || document.documentElement.clientWidth;
+                if (menuW + 16 > viewportW) left = 8;
+
+                // top just below button
+                const top = Math.round(r.bottom + 8);
+
+                menu.style.left = left + 'px';
+                menu.style.top = top + 'px';
+                menu.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+
+            function closeMenu() {
+                menu.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+
+            btn.addEventListener('click', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                // close other open menus
+                document.querySelectorAll('.dropdown-menu-hover.open').forEach(m => {
+                    if (m !== menu) m.classList.remove('open');
+                });
+                // toggle this menu
+                if (menu.classList.contains('open')) closeMenu();
+                else openMenu();
+            });
+
+            // close when clicking outside
+            document.addEventListener('click', function(e){
+                if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                    closeMenu();
+                }
+            });
+
+            // reposition on resize/scroll while open
+            window.addEventListener('resize', function(){
+                if (menu.classList.contains('open')) openMenu();
+            });
+            window.addEventListener('scroll', function(){
+                if (menu.classList.contains('open')) openMenu();
+            }, true);
+
+            // allow keyboard ESC to close
+            document.addEventListener('keydown', function(e){
+                if (e.key === 'Escape') closeMenu();
+            });
+        });
+    })();
+</script>
 
