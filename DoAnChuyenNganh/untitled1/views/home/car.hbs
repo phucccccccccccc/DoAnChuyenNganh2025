@@ -1,28 +1,58 @@
-<style>
-    .car__item__pic {
-        height: 200px;
-        overflow: hidden;
-    }
-    .car__item__pic img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Listing</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/elegant-icons.css">
+    <link rel="stylesheet" href="/css/nice-select.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/slicknav.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .car__item__pic {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .car__item__pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .buy-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Breadcrumb -->
 <div class="breadcrumb-option set-bg" data-setbg="/img/breadcrumb-bg.jpg">
     <div class="container text-center">
         <h2>Car Listing</h2>
     </div>
 </div>
 
+<!-- Car Section -->
 <section class="car spad">
     <div class="container">
         <div class="row">
 
+            <!-- SIDEBAR -->
             <div class="col-lg-3">
                 <div class="car__sidebar">
-                    <h5>Danh mục</h5>
+                    <h5>Categories</h5>
                     <ul>
                         {{#each categories}}
                             <li>
@@ -35,24 +65,58 @@
                 </div>
             </div>
 
+            <!-- CAR LIST -->
             <div class="col-lg-9">
                 <div class="row">
+
                     {{#each cars}}
                         <div class="col-lg-4 col-md-6">
                             <div class="car__item">
+
                                 <div class="car__item__pic">
-                                    <img src="{{this.image}}" alt="">
+                                    <img src="{{this.image}}" alt="{{this.name}}">
                                 </div>
+
                                 <div class="car__item__text">
-                                    <h5>{{this.name}}</h5>
-                                    <h6>{{this.price}}</h6>
+                                    <h5>
+                                        <a href="/car/{{this._id}}">
+                                            {{this.name}}
+                                        </a>
+                                    </h5>
+
+                                    <div class="car__item__price">
+                                        <h6>{{this.price}}</h6>
+                                    </div>
+
+                                    <a href="/car/{{this._id}}"
+                                       class="primary-btn buy-btn">
+                                        Mua
+                                    </a>
                                 </div>
+
                             </div>
                         </div>
                     {{/each}}
+
+                    {{#unless cars.length}}
+                        <div class="col-12 text-center">
+                            <p>❌ Không có xe trong danh mục này</p>
+                        </div>
+                    {{/unless}}
+
                 </div>
             </div>
 
         </div>
     </div>
 </section>
+
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+</html>
