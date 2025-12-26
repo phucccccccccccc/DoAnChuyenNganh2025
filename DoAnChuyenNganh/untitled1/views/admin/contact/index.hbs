@@ -1,0 +1,78 @@
+<h3>Danh sách Contact</h3>
+
+<table class="table table-bordered table-hover text-center">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Subject</th>
+        <th>Message</th>
+        <th>Liên hệ</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {{#each contacts}}
+        <tr>
+            <td>{{@index}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.subject}}</td>
+            <td style="max-width:300px">{{this.message}}</td>
+
+            <!-- STATUS -->
+
+            <td>
+                {{#if this.contacted}}
+                    <button type="button"
+                            class="btn btn-sm btn-outline-success toggle-contact"
+                            title="Đã liên hệ">
+                        <i class="fas fa-check"></i>
+                    </button>
+
+                {{else}}
+                    <button type="button"
+                            class="btn btn-sm btn-outline-secondary toggle-contact"
+                            title="Chưa liên hệ">
+                        <i class="fas fa-times"></i>
+                    </button>
+                {{/if}}
+            </td>
+
+            </td>
+
+            <!-- DELETE -->
+            <td>
+                <form method="post"
+                      action="/admin/contact/{{this._id}}/delete"
+                      onsubmit="return confirm('Xóa contact này?')">
+                    <button class="btn btn-danger btn-sm">Xóa</button>
+                </form>
+            </td>
+        </tr>
+    {{/each}}
+
+    {{#unless contacts.length}}
+        <tr>
+            <td colspan="7" class="text-center">Chưa có contact</td>
+        </tr>
+    {{/unless}}
+    </tbody>
+</table>
+<script>
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('toggle-contact')) {
+            if (e.target.innerText === '✖') {
+                e.target.innerText = '✔';
+                e.target.classList.remove('btn-secondary');
+                e.target.classList.add('btn-success');
+            } else {
+                e.target.innerText = '✖';
+                e.target.classList.remove('btn-success');
+                e.target.classList.add('btn-secondary');
+            }
+        }
+    });
+</script>

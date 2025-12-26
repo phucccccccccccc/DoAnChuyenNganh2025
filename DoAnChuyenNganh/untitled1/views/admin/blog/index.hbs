@@ -1,0 +1,58 @@
+<section class="content">
+    <div class="container-fluid">
+
+        <a href="/admin/blog/create" class="btn btn-primary mb-3">
+            ➕ Thêm Blog
+        </a>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Tiêu đề</th>
+                <th>Ảnh</th>
+                <th>Tác giả</th>
+                <th>Danh mục</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each blogs}}
+                <tr>
+                    <td>{{this.title}}</td>
+                    <td>
+                        <img src="{{this.image}}" width="80">
+                    </td>
+                    <td>{{this.author}}</td>
+                    <td>{{this.category}}</td>
+                    <td>
+                        {{#if this.status}}Hiện{{else}}Ẩn{{/if}}
+                    </td>
+                    <td>
+                        <a href="/admin/blog/{{this._id}}/edit"
+                           class="btn btn-sm btn-warning">Sửa</a>
+
+                        <form action="/admin/blog/{{this._id}}/delete"
+                              method="post"
+                              style="display:inline">
+                            <button class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Xóa blog?')">
+                                Xóa
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {{/each}}
+
+            {{#unless blogs.length}}
+                <tr>
+                    <td colspan="6" class="text-center">
+                        ❌ Chưa có blog
+                    </td>
+                </tr>
+            {{/unless}}
+            </tbody>
+        </table>
+
+    </div>
+</section>

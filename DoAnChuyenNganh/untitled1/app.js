@@ -5,83 +5,101 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('hbs');
 
+const session = require('express-session');
+const methodOverride = require('method-override');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
+/* ========= ROUTES ========= */
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var categoryRouter = require('./routes/category');
 
+const requireAdmin = require('./middlewares/requireAdmin');
 
 const carRouter = require('./routes/car');
+const blogRouter = require('./routes/blog');
 const productRouter = require('./routes/product');
+const aboutRouter = require('./routes/about');
+
+const adminBlogRouter = require('./routes/admin/blog');
+const adminContactRouter = require('./routes/admin/contact');
+const adminAboutRouter = require('./routes/admin/about');
+
+/* ========= MODEL (FIX LỖI USER) ========= */
+const User = require('./models/User'); // ✅ BẮT BUỘC – FIX User is not defined
 
 var app = express();
 
-const methodOverride = require('method-override');
+/* ======================= VIEW ENGINE ======================= */
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+hbs.registerPartials(path.join(__dirname, 'views/partials'));
 
-const session = require('express-session');
+hbs.registerHelper('eq', function (a, b) {
+    return String(a) === String(b);
+});
 
+/* ======================= MIDDLEWARE ======================= */
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
+
 app.use(session({
     secret: 'secret-key',
     resave: false,
     saveUninitialized: true
 }));
 
-hbs.registerHelper('eq', function (a, b) {
-    return String(a) === String(b);
-});
-//methot
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-
-hbs.registerPartials(path.join(__dirname, 'views/partials')); //khai bao partials
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
+// USER GLOBAL (layout admin dùng {{user}})
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     next();
 });
 
+/* ======================= ROUTES ======================= */
+// ================= FRONT =================
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/admin', adminRouter);
-app.use('/admin/category', categoryRouter);
 app.use('/cars', carRouter);
-app.use('/admin/product', productRouter);
+app.use('/', blogRouter);
+app.use('/', aboutRouter);
 
+// ================= ADMIN AUTH (KHÔNG KHÓA) =================
+app.use('/admin', adminRouter); // login, register, forgot-password
+app.use('/admin/login', adminRouter);
+app.use('/admin/register', adminRouter);
+app.use('/admin/forgot-password', adminRouter);
 
+// ================= ADMIN PROTECTED =================
+app.use('/admin/category', requireAdmin, categoryRouter);
+app.use('/admin/product', requireAdmin, productRouter);
+app.use('/admin/blog', requireAdmin, adminBlogRouter);
+app.use('/admin/contact', requireAdmin, adminContactRouter);
+app.use('/admin/about', requireAdmin, require('./routes/admin/about'));
 
+/* ================= ADMIN DASHBOARD ================= */
+app.use('/admin', requireAdmin, adminRouter);
 
-const mongoose = require('mongoose');
-const User = require('./models/User'); // đường dẫn tới model User của bạn
-const bcryptjs = require('bcrypt'); // bcryptjs hoặc bcrypt
-const bodyParser = require('body-parser');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
+/* ======================= DATABASE ======================= */
 mongoose
     .connect('mongodb://127.0.0.1:27017/node')
-    .then(() => console.log("MongoDB Connected"))
-    .catch(err => console.log("Error connected to MongoDB", err));
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log('MongoDB Error:', err));
 
-
-
+/* ======================= LOGOUT ======================= */
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
-        if (err) {
-            console.log(err);
-            return res.send("Lỗi khi đăng xuất");
-        }
-        res.redirect('/admin/login'); // về trang đăng nhập
+        if (err) return res.send('Lỗi khi đăng xuất');
+        res.redirect('/admin/login');
     });
 });
+
+
 // app.js
 // cần: const bcryptjs = require('bcrypt'); const User = require('./models/User');
 
@@ -189,12 +207,11 @@ app.post('/register', async (req, res) => {
 
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
+    const errors = {};
 
     // ==========================
     // 1) KIỂM TRA RỖNG
     // ==========================
-    const errors = {};
-
     if (!email || email.trim() === "") {
         errors.emailError = "Vui lòng nhập email";
     }
@@ -203,11 +220,19 @@ app.post('/login', (req, res) => {
         errors.passwordError = "Vui lòng nhập mật khẩu";
     }
 
-    // Nếu có lỗi rỗng → render lại ngay
+    // ==========================
+    // 1.5) KIỂM TRA ĐỊNH DẠNG EMAIL
+    // ==========================
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email && !emailRegex.test(email)) {
+        errors.emailError = "Email không hợp lệ";
+    }
+
+    // ❌ Có lỗi → render lại
     if (Object.keys(errors).length > 0) {
         return res.render('admin/login', {
             ...errors,
-            email // giữ lại email đã nhập
+            email
         });
     }
 
@@ -225,8 +250,7 @@ app.post('/login', (req, res) => {
         // ==========================
         // 3) KIỂM TRA MẬT KHẨU
         // ==========================
-        bcryptjs.compare(password, user.password, (err, matched) => {
-
+        bcrypt.compare(password, user.password, (err, matched) => {
             if (!matched) {
                 return res.render('admin/login', {
                     passwordError: "Sai mật khẩu",
@@ -247,6 +271,7 @@ app.post('/login', (req, res) => {
         });
     });
 });
+
 
 // catch 404 and forward to error handler
 
